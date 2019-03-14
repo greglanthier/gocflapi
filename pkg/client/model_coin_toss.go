@@ -12,6 +12,6 @@ package client
 
 type CoinToss struct {
 	CoinTossWinner string `json:"coin_toss_winner,omitempty"`
-	// A free-form string that contains information on the winner of the game-starting coin toss, and what the team elected to do. The structure of this value is not normalized and as such should be used programmatically with caution. 
+	// A free-form string that contains information on the winner of the game-starting coin toss, and what the team elected to do. The structure of this value is not normalized and as such should be used programmatically with caution.
 	CoinTossWinnerElection string `json:"coin_toss_winner_election,omitempty"`
 }

@@ -11,10 +11,10 @@
 package client
 
 type Weather struct {
-	// An integer value indicating the temperature taken at the stadium / venue the game is held at. Note that this value can be zero or negative. 
-	Temperature int32 `json:"temperature,omitempty"`
-	Sky string `json:"sky,omitempty"`
-	WindSpeed string `json:"wind_speed,omitempty"`
-	WindDirection string `json:"wind_direction,omitempty"`
+	// An integer value indicating the temperature taken at the stadium / venue the game is held at. Note that this value can be zero or negative.
+	Temperature     int32  `json:"temperature,omitempty"`
+	Sky             string `json:"sky,omitempty"`
+	WindSpeed       string `json:"wind_speed,omitempty"`
+	WindDirection   string `json:"wind_direction,omitempty"`
 	FieldConditions string `json:"field_conditions,omitempty"`
 }

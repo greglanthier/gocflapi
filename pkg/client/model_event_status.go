@@ -11,19 +11,19 @@
 package client
 
 type EventStatus struct {
-	// An integer value indicating the current status of the game. Possible values are: 1: Pre-Game 2: In-Progress 4: Final 9: Cancelled 
-	EventStatusId int32 `json:"event_status_id,omitempty"`
-	Name string `json:"name,omitempty"`
-	// A Boolean value indicating if play is currently live in this game. If play is live at the time of the API request, the value returned is true; else it is false. 
+	// An integer value indicating the current status of the game. Possible values are: 1: Pre-Game 2: In-Progress 4: Final 9: Cancelled
+	EventStatusId int32  `json:"event_status_id,omitempty"`
+	Name          string `json:"name,omitempty"`
+	// A Boolean value indicating if play is currently live in this game. If play is live at the time of the API request, the value returned is true; else it is false.
 	IsActive bool `json:"is_active,omitempty"`
-	// If this game is in progress, contains an integer value indicating the current quarter of play. Contains null if the game is not in play. 
+	// If this game is in progress, contains an integer value indicating the current quarter of play. Contains null if the game is not in play.
 	Quarter int32 `json:"quarter,omitempty"`
-	// If this game is in progress, contains an integer value indicating the last recorded minute value of the game clock. Contains null if the game is not in play. 
+	// If this game is in progress, contains an integer value indicating the last recorded minute value of the game clock. Contains null if the game is not in play.
 	Minutes int32 `json:"minutes,omitempty"`
-	// If this game is in progress, contains an integer value indicating the last recorded second value of the game clock. Contains null if the game is not in play. 
+	// If this game is in progress, contains an integer value indicating the last recorded second value of the game clock. Contains null if the game is not in play.
 	Seconds int32 `json:"seconds,omitempty"`
-	// If this game is in progress, contains an integer value indicating the down of the last recorded play. Contains null if the game is not in play. 
+	// If this game is in progress, contains an integer value indicating the down of the last recorded play. Contains null if the game is not in play.
 	Down int32 `json:"down,omitempty"`
-	// If this game is in progress, contains an integer value indicating the last recorded number of yards to a first down. Contains null if the game is not in play. 
+	// If this game is in progress, contains an integer value indicating the last recorded number of yards to a first down. Contains null if the game is not in play.
 	YardsToGo int32 `json:"yards_to_go,omitempty"`
 }

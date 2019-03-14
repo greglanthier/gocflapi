@@ -11,8 +11,8 @@
 package client
 
 type Venue struct {
-	// A unique numeric value assigned to the stadium / venue the game is held within. 
+	// A unique numeric value assigned to the stadium / venue the game is held within.
 	VenueId int32 `json:"venue_id,omitempty"`
-	// The name of the stadium / venue the game is held within. 
+	// The name of the stadium / venue the game is held within.
 	Name string `json:"name,omitempty"`
 }
