@@ -1,16 +1,3 @@
-# Copyright 2019 Greg Lanthier
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 ---
 swagger: "2.0"
 info:
@@ -53,6 +40,7 @@ paths:
         required: true
         type: "integer"
         format: "int32"
+        x-exportParamName: "Season"
       responses:
         200:
           description: "Games from seaon"
@@ -60,15 +48,12 @@ paths:
             $ref: "#/definitions/Games"
       security:
       - api_key: []
-
 securityDefinitions:
   api_key:
     type: "apiKey"
     name: "key"
     in: "query"
-
 definitions:
-
   Games:
     type: "object"
     properties:
@@ -76,7 +61,6 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Game"
-
   Game:
     type: "object"
     properties:
@@ -99,35 +83,25 @@ definitions:
         type: "integer"
         format: "int32"
       event_type:
-        type: "object"
         $ref: "#/definitions/EventType"
       event_status:
-        type: "object"
         $ref: "#/definitions/EventStatus"
       venue:
-        type: "object"
         $ref: "#/definitions/Venue"
       weather:
-        type: "object"
         $ref: "#/definitions/Weather"
       coin_toss:
-        type: "object"
         $ref: "#/definitions/CoinToss"
       tickets_url:
         type: "string"
-
   EventType:
     type: "object"
     properties:
       event_type_id:
         type: "integer"
         format: "int32"
-        description: |
-          An integer value indicating the type of game played. Possible values are:
-          0: Preseason
-          1: Regular Season
-          2: Playoffs
-          3: Grey Cup
+        description: "An integer value indicating the type of game played. Possible\
+          \ values are:\n0: Preseason\n1: Regular Season\n2: Playoffs\n3: Grey Cup\n"
         enum:
         - 0
         - 1
@@ -137,27 +111,17 @@ definitions:
         type: "string"
       title:
         type: "string"
-        description: |
-          An string value indicating the formal title of the game. Possible values can include:
-          Blank / No value
-          Eastern Semi-Final
-          Western Semi-Final
-          Eastern Final
-          Western Final
-          XXXth Grey Cup
-
+        description: "An string value indicating the formal title of the game. Possible\
+          \ values can include:\nBlank / No value\nEastern Semi-Final\nWestern Semi-Final\n\
+          Eastern Final\nWestern Final\nXXXth Grey Cup\n"
   EventStatus:
     type: "object"
     properties:
       event_status_id:
         type: "integer"
         format: "int32"
-        description: |
-          An integer value indicating the current status of the game. Possible values are:
-          1: Pre-Game
-          2: In-Progress
-          4: Final
-          9: Cancelled
+        description: "An integer value indicating the current status of the game.\
+          \ Possible values are:\n1: Pre-Game\n2: In-Progress\n4: Final\n9: Cancelled\n"
         enum:
         - 1
         - 2
@@ -167,55 +131,57 @@ definitions:
         type: "string"
       is_active:
         type: "boolean"
-        description: |
-          A Boolean value indicating if play is currently live in this game. If play is live at the time of the API request, the value returned is true; else it is false.
+        description: "A Boolean value indicating if play is currently live in this\
+          \ game. If play is live at the time of the API request, the value returned\
+          \ is true; else it is false.\n"
       quarter:
         type: "integer"
         format: "int32"
-        description: |
-          If this game is in progress, contains an integer value indicating the current quarter of play. Contains null if the game is not in play.
+        description: "If this game is in progress, contains an integer value indicating\
+          \ the current quarter of play. Contains null if the game is not in play.\n"
       minutes:
         type: "integer"
         format: "int32"
-        description: |
-          If this game is in progress, contains an integer value indicating the last recorded minute value of the game clock. Contains null if the game is not in play.
+        description: "If this game is in progress, contains an integer value indicating\
+          \ the last recorded minute value of the game clock. Contains null if the\
+          \ game is not in play.\n"
       seconds:
         type: "integer"
         format: "int32"
-        description: |
-          If this game is in progress, contains an integer value indicating the last recorded second value of the game clock. Contains null if the game is not in play.
+        description: "If this game is in progress, contains an integer value indicating\
+          \ the last recorded second value of the game clock. Contains null if the\
+          \ game is not in play.\n"
       down:
         type: "integer"
         format: "int32"
-        description: |
-          If this game is in progress, contains an integer value indicating the down of the last recorded play. Contains null if the game is not in play.
+        description: "If this game is in progress, contains an integer value indicating\
+          \ the down of the last recorded play. Contains null if the game is not in\
+          \ play.\n"
       yards_to_go:
         type: "integer"
         format: "int32"
-        description: |
-          If this game is in progress, contains an integer value indicating the last recorded number of yards to a first down. Contains null if the game is not in play.
-
+        description: "If this game is in progress, contains an integer value indicating\
+          \ the last recorded number of yards to a first down. Contains null if the\
+          \ game is not in play.\n"
   Venue:
     type: "object"
     properties:
       venue_id:
         type: "integer"
         format: "int32"
-        description: |
-          A unique numeric value assigned to the stadium / venue the game is held within.
+        description: "A unique numeric value assigned to the stadium / venue the game\
+          \ is held within.\n"
       name:
         type: "string"
-        description: |
-          The name of the stadium / venue the game is held within.
-
+        description: "The name of the stadium / venue the game is held within.\n"
   Weather:
     type: "object"
     properties:
       temperature:
         type: "integer"
         format: "int32"
-        description: |
-          An integer value indicating the temperature taken at the stadium / venue the game is held at. Note that this value can be zero or negative.
+        description: "An integer value indicating the temperature taken at the stadium\
+          \ / venue the game is held at. Note that this value can be zero or negative.\n"
       sky:
         type: "string"
       wind_speed:
@@ -224,7 +190,6 @@ definitions:
         type: "string"
       field_conditions:
         type: "string"
-
   CoinToss:
     type: "object"
     properties:
@@ -232,10 +197,10 @@ definitions:
         type: "string"
       coin_toss_winner_election:
         type: "string"
-        description: |
-          A free-form string that contains information on the winner of the game-starting coin toss, and what the team elected to do.
-          The structure of this value is not normalized and as such should be used programmatically with caution.
-
+        description: "A free-form string that contains information on the winner of\
+          \ the game-starting coin toss, and what the team elected to do.\nThe structure\
+          \ of this value is not normalized and as such should be used programmatically\
+          \ with caution.\n"
   ApiResponse:
     type: "object"
     properties:
