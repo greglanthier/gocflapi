@@ -11,8 +11,6 @@ Method | HTTP request | Description
 > Games GetGames(ctx, season)
 Get a list of all games in a particular season
 
-
-
 ### Required Parameters
 
 Name | Type | Description  | Notes
@@ -30,7 +28,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
