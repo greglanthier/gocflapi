@@ -25,7 +25,7 @@ import (
 	// _ "github.com/motemen/go-loghttp/global"
 )
 
-// Here is an example of using the swagger-codegen generated client to retrieve game data for all the games in the 2017 season.
+// Here is an example of using the swagger-codegen generated client to retrieve game data for all the games in the 2018 season.
 func Example() {
 	// import (
 	// 	"context"
