@@ -24,7 +24,7 @@ info:
     name: CFL Public Licence
     url: http://api.cfl.ca/key-request/public-licence
 tags:
-  - name: games
+  - name: Games
     description: Everything about CFL games
     externalDocs:
       description: Find out more
@@ -33,7 +33,7 @@ paths:
   "/v1/games/{season}":
     get:
       tags:
-        - games
+        - Games
       summary: "Get a list of all games in a particular season"
       operationId: getGames
       parameters:
@@ -54,12 +54,12 @@ paths:
       security:
         - api_key:
             []
-  "/v1/games/{season}/game/{gameId}{?include}":
+  "/v1/games/{season}/game/{gameId}":
     get:
       tags:
-        - games
+        - Games
       summary: "Get data for a specific game"
-      operationId: getGamesById
+      operationId: getGameById
       parameters:
         - name: "season"
           in: "path"
@@ -101,7 +101,7 @@ paths:
           content:
             "application/json":
               schema:
-                $ref: "#/components/schemas/Game"
+                $ref: "#/components/schemas/Games"
       security:
         - api_key:
             []
@@ -147,6 +147,9 @@ components:
         attendance:
           type: "integer"
           format: "int32"
+        game_duration:
+          type: "integer"
+          format: "int32"
         event_type:
           $ref: "#/components/schemas/EventType"
         event_status:
@@ -159,6 +162,14 @@ components:
           $ref: "#/components/schemas/CoinToss"
         tickets_url:
           type: "string"
+        team_1:
+          $ref: "#/components/schemas/Team"
+        team_2:
+          $ref: "#/components/schemas/Team"
+        play_by_play:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/PlayByPlay"
     EventType:
       type: "object"
       properties:
@@ -308,6 +319,80 @@ components:
             game-starting coin toss, and what the team elected to do.
 
             The structure of this value is not normalized and as such should be used programmatically with caution.
+    Team:
+      type: "object"
+      properties:
+        team_id:
+          type: "integer"
+          format: "int32"
+        location:
+          type: "string"
+        nickname:
+          type: "string"
+        abbreviation:
+          type: "string"
+        score:
+          type: "integer"
+          format: "int32"
+        venue_id:
+          type: "integer"
+          format: "int32"
+        linescores:
+          type: "array"
+          items:
+            anyOf:
+            - $ref: "#/components/schemas/LineScore"
+            - $ref: "#/components/schemas/OTLineScore"
+        is_at_home:
+          type: "boolean"
+        is_winner:
+          type: "boolean"
+    LineScore:
+      type: "object"
+      properties:
+        quarter:
+          type: "integer"
+          format: "int32"
+        score:
+          type: "integer"
+          format: "int32"
+    OTLineScore:
+      type: "object"
+      properties:
+        quarter:
+          type: "string"
+        score:
+          type: "integer"
+          format: "int32"
+    PlayByPlay:
+      type: "object"
+      properties:
+        play_id:
+          type: "integer"
+          format: "int32"
+        play_sequence:
+          type: "integer"
+          format: "int32"
+        quarter:
+          type: "integer"
+          format: "int32"
+        play_clock_start:
+          type: "string"
+        play_clock_start_in_secs:
+          type: "integer"
+          format: "int32"
+        field_position_start:
+          type: "string"
+        field_position_end:
+          type: "string"
+        down:
+          type: "integer"
+          format: "int32"
+        yards_to_go:
+          type: "integer"
+          format: "int32"
+        play_summary:
+          type: "string"
     ApiResponse:
       type: "object"
       properties:

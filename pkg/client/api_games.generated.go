@@ -28,12 +28,20 @@ var (
 type GamesApiService service
 
 /*
-GamesApiService Get a list of all games in a particular season
+GamesApiService Get data for a specific game
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param season Season to retrieve
+ * @param gameId Specific game to retrieve
+ * @param optional nil or *GetGameByIdOpts - Optional Parameters:
+ * @param "Include" (optional.String) -  Additional game data can be optionally accessed through use of the include parameter. To get both the box score and play-by-play data in a single API request, pass both values separated by a comma: include=boxscore,play_by_play 
 @return Games
 */
-func (a *GamesApiService) GetGames(ctx context.Context, season int32) (Games, *http.Response, error) {
+
+type GetGameByIdOpts struct {
+	Include optional.String
+}
+
+func (a *GamesApiService) GetGameById(ctx context.Context, season int32, gameId int32, localVarOptionals *GetGameByIdOpts) (Games, *http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Get")
 		localVarPostBody     interface{}
@@ -44,13 +52,17 @@ func (a *GamesApiService) GetGames(ctx context.Context, season int32) (Games, *h
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/v1/games/{season}"
+	localVarPath := a.client.cfg.BasePath + "/v1/games/{season}/game/{gameId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"season"+"}", fmt.Sprintf("%v", season), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"gameId"+"}", fmt.Sprintf("%v", gameId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if localVarOptionals != nil && localVarOptionals.Include.IsSet() {
+		localVarQueryParams.Add("include", parameterToString(localVarOptionals.Include.Value(), ""))
+	}
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 
@@ -128,41 +140,29 @@ func (a *GamesApiService) GetGames(ctx context.Context, season int32) (Games, *h
 }
 
 /*
-GamesApiService Get data for a specific game
+GamesApiService Get a list of all games in a particular season
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param season Season to retrieve
- * @param gameId Specific game to retrieve
- * @param optional nil or *GetGamesByIdOpts - Optional Parameters:
- * @param "Include" (optional.String) -  Additional game data can be optionally accessed through use of the include parameter. To get both the box score and play-by-play data in a single API request, pass both values separated by a comma: include=boxscore,play_by_play 
-@return Game
+@return Games
 */
-
-type GetGamesByIdOpts struct {
-	Include optional.String
-}
-
-func (a *GamesApiService) GetGamesById(ctx context.Context, season int32, gameId int32, localVarOptionals *GetGamesByIdOpts) (Game, *http.Response, error) {
+func (a *GamesApiService) GetGames(ctx context.Context, season int32) (Games, *http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Get")
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  Game
+		localVarReturnValue  Games
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/v1/games/{season}/game/{gameId}{?include}"
+	localVarPath := a.client.cfg.BasePath + "/v1/games/{season}"
 	localVarPath = strings.Replace(localVarPath, "{"+"season"+"}", fmt.Sprintf("%v", season), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"gameId"+"}", fmt.Sprintf("%v", gameId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if localVarOptionals != nil && localVarOptionals.Include.IsSet() {
-		localVarQueryParams.Add("include", parameterToString(localVarOptionals.Include.Value(), ""))
-	}
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 
@@ -215,7 +215,7 @@ func (a *GamesApiService) GetGamesById(ctx context.Context, season int32, gameId
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v Game
+			var v Games
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

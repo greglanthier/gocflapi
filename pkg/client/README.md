@@ -30,8 +30,8 @@ All URIs are relative to *https://api.cfl.ca*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*GamesApi* | [**GetGameById**](docs/GamesApi.md#getgamebyid) | **Get** /v1/games/{season}/game/{gameId} | Get data for a specific game
 *GamesApi* | [**GetGames**](docs/GamesApi.md#getgames) | **Get** /v1/games/{season} | Get a list of all games in a particular season
-*GamesApi* | [**GetGamesById**](docs/GamesApi.md#getgamesbyid) | **Get** /v1/games/{season}/game/{gameId}{?include} | Get data for a specific game
 
 
 ## Documentation For Models
@@ -42,6 +42,10 @@ Class | Method | HTTP request | Description
  - [EventType](docs/EventType.md)
  - [Game](docs/Game.md)
  - [Games](docs/Games.md)
+ - [LineScore](docs/LineScore.md)
+ - [OtLineScore](docs/OtLineScore.md)
+ - [PlayByPlay](docs/PlayByPlay.md)
+ - [Team](docs/Team.md)
  - [Venue](docs/Venue.md)
  - [Weather](docs/Weather.md)
 

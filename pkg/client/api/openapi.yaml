@@ -20,7 +20,7 @@ tags:
   externalDocs:
     description: Find out more
     url: http://api.cfl.ca/docs#games
-  name: games
+  name: Games
 paths:
   /v1/games/{season}:
     get:
@@ -46,10 +46,10 @@ paths:
       - api_key: []
       summary: Get a list of all games in a particular season
       tags:
-      - games
-  /v1/games/{season}/game/{gameId}{?include}:
+      - Games
+  /v1/games/{season}/game/{gameId}:
     get:
-      operationId: getGamesById
+      operationId: getGameById
       parameters:
       - description: Season to retrieve
         explode: false
@@ -94,30 +94,66 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Game'
+                $ref: '#/components/schemas/Games'
           description: Games from seaon
       security:
       - api_key: []
       summary: Get data for a specific game
       tags:
-      - games
+      - Games
 components:
   schemas:
     Games:
       example:
         data:
-        - venue:
+        - team_1:
+            is_winner: true
+            score: 7
+            is_at_home: true
+            nickname: nickname
+            location: location
+            team_id: 6
+            abbreviation: abbreviation
+            linescores:
+            - ""
+            - ""
+            venue_id: 1
+          venue:
             name: name
             venue_id: 1
-          date_start: 2000-01-23T04:56:07.000+00:00
           week: 1
-          event_type:
-            name: name
-            title: title
-            event_type_id: 2
           coin_toss:
             coin_toss_winner: coin_toss_winner
             coin_toss_winner_election: coin_toss_winner_election
+          tickets_url: tickets_url
+          game_duration: 2
+          game_number: 6
+          play_by_play:
+          - play_id: 4
+            play_clock_start: play_clock_start
+            field_position_end: field_position_end
+            play_clock_start_in_secs: 9
+            play_sequence: 5
+            yards_to_go: 8
+            down: 6
+            play_summary: play_summary
+            quarter: 9
+            field_position_start: field_position_start
+          - play_id: 4
+            play_clock_start: play_clock_start
+            field_position_end: field_position_end
+            play_clock_start_in_secs: 9
+            play_sequence: 5
+            yards_to_go: 8
+            down: 6
+            play_summary: play_summary
+            quarter: 9
+            field_position_start: field_position_start
+          date_start: 2000-01-23T04:56:07.000+00:00
+          event_type:
+            name: name
+            title: title
+            event_type_id: 7
           weather:
             sky: sky
             field_conditions: field_conditions
@@ -125,31 +161,77 @@ components:
             wind_speed: wind_speed
             wind_direction: wind_direction
           season: 5
-          tickets_url: tickets_url
-          game_number: 6
           attendance: 5
           game_id: 0
           event_status:
-            seconds: 2
+            seconds: 4
             is_active: true
-            minutes: 3
+            minutes: 2
             name: name
-            event_status_id: 7
-            yards_to_go: 7
-            down: 4
-            quarter: 9
-        - venue:
+            event_status_id: 9
+            yards_to_go: 1
+            down: 7
+            quarter: 3
+          team_2:
+            is_winner: true
+            score: 7
+            is_at_home: true
+            nickname: nickname
+            location: location
+            team_id: 6
+            abbreviation: abbreviation
+            linescores:
+            - ""
+            - ""
+            venue_id: 1
+        - team_1:
+            is_winner: true
+            score: 7
+            is_at_home: true
+            nickname: nickname
+            location: location
+            team_id: 6
+            abbreviation: abbreviation
+            linescores:
+            - ""
+            - ""
+            venue_id: 1
+          venue:
             name: name
             venue_id: 1
-          date_start: 2000-01-23T04:56:07.000+00:00
           week: 1
-          event_type:
-            name: name
-            title: title
-            event_type_id: 2
           coin_toss:
             coin_toss_winner: coin_toss_winner
             coin_toss_winner_election: coin_toss_winner_election
+          tickets_url: tickets_url
+          game_duration: 2
+          game_number: 6
+          play_by_play:
+          - play_id: 4
+            play_clock_start: play_clock_start
+            field_position_end: field_position_end
+            play_clock_start_in_secs: 9
+            play_sequence: 5
+            yards_to_go: 8
+            down: 6
+            play_summary: play_summary
+            quarter: 9
+            field_position_start: field_position_start
+          - play_id: 4
+            play_clock_start: play_clock_start
+            field_position_end: field_position_end
+            play_clock_start_in_secs: 9
+            play_sequence: 5
+            yards_to_go: 8
+            down: 6
+            play_summary: play_summary
+            quarter: 9
+            field_position_start: field_position_start
+          date_start: 2000-01-23T04:56:07.000+00:00
+          event_type:
+            name: name
+            title: title
+            event_type_id: 7
           weather:
             sky: sky
             field_conditions: field_conditions
@@ -157,19 +239,29 @@ components:
             wind_speed: wind_speed
             wind_direction: wind_direction
           season: 5
-          tickets_url: tickets_url
-          game_number: 6
           attendance: 5
           game_id: 0
           event_status:
-            seconds: 2
+            seconds: 4
             is_active: true
-            minutes: 3
+            minutes: 2
             name: name
-            event_status_id: 7
-            yards_to_go: 7
-            down: 4
-            quarter: 9
+            event_status_id: 9
+            yards_to_go: 1
+            down: 7
+            quarter: 3
+          team_2:
+            is_winner: true
+            score: 7
+            is_at_home: true
+            nickname: nickname
+            location: location
+            team_id: 6
+            abbreviation: abbreviation
+            linescores:
+            - ""
+            - ""
+            venue_id: 1
       properties:
         data:
           items:
@@ -178,18 +270,54 @@ components:
       type: object
     Game:
       example:
+        team_1:
+          is_winner: true
+          score: 7
+          is_at_home: true
+          nickname: nickname
+          location: location
+          team_id: 6
+          abbreviation: abbreviation
+          linescores:
+          - ""
+          - ""
+          venue_id: 1
         venue:
           name: name
           venue_id: 1
-        date_start: 2000-01-23T04:56:07.000+00:00
         week: 1
-        event_type:
-          name: name
-          title: title
-          event_type_id: 2
         coin_toss:
           coin_toss_winner: coin_toss_winner
           coin_toss_winner_election: coin_toss_winner_election
+        tickets_url: tickets_url
+        game_duration: 2
+        game_number: 6
+        play_by_play:
+        - play_id: 4
+          play_clock_start: play_clock_start
+          field_position_end: field_position_end
+          play_clock_start_in_secs: 9
+          play_sequence: 5
+          yards_to_go: 8
+          down: 6
+          play_summary: play_summary
+          quarter: 9
+          field_position_start: field_position_start
+        - play_id: 4
+          play_clock_start: play_clock_start
+          field_position_end: field_position_end
+          play_clock_start_in_secs: 9
+          play_sequence: 5
+          yards_to_go: 8
+          down: 6
+          play_summary: play_summary
+          quarter: 9
+          field_position_start: field_position_start
+        date_start: 2000-01-23T04:56:07.000+00:00
+        event_type:
+          name: name
+          title: title
+          event_type_id: 7
         weather:
           sky: sky
           field_conditions: field_conditions
@@ -197,19 +325,29 @@ components:
           wind_speed: wind_speed
           wind_direction: wind_direction
         season: 5
-        tickets_url: tickets_url
-        game_number: 6
         attendance: 5
         game_id: 0
         event_status:
-          seconds: 2
+          seconds: 4
           is_active: true
-          minutes: 3
+          minutes: 2
           name: name
-          event_status_id: 7
-          yards_to_go: 7
-          down: 4
-          quarter: 9
+          event_status_id: 9
+          yards_to_go: 1
+          down: 7
+          quarter: 3
+        team_2:
+          is_winner: true
+          score: 7
+          is_at_home: true
+          nickname: nickname
+          location: location
+          team_id: 6
+          abbreviation: abbreviation
+          linescores:
+          - ""
+          - ""
+          venue_id: 1
       properties:
         game_id:
           format: int32
@@ -229,6 +367,9 @@ components:
         attendance:
           format: int32
           type: integer
+        game_duration:
+          format: int32
+          type: integer
         event_type:
           $ref: '#/components/schemas/EventType'
         event_status:
@@ -241,12 +382,20 @@ components:
           $ref: '#/components/schemas/CoinToss'
         tickets_url:
           type: string
+        team_1:
+          $ref: '#/components/schemas/Team'
+        team_2:
+          $ref: '#/components/schemas/Team'
+        play_by_play:
+          items:
+            $ref: '#/components/schemas/PlayByPlay'
+          type: array
       type: object
     EventType:
       example:
         name: name
         title: title
-        event_type_id: 2
+        event_type_id: 7
       properties:
         event_type_id:
           description: |
@@ -277,14 +426,14 @@ components:
       type: object
     EventStatus:
       example:
-        seconds: 2
+        seconds: 4
         is_active: true
-        minutes: 3
+        minutes: 2
         name: name
-        event_status_id: 7
-        yards_to_go: 7
-        down: 4
-        quarter: 9
+        event_status_id: 9
+        yards_to_go: 1
+        down: 7
+        quarter: 3
       properties:
         event_status_id:
           description: |
@@ -380,6 +529,103 @@ components:
           description: |
             A free-form string that contains information on the winner of the game-starting coin toss, and what the team elected to do.
             The structure of this value is not normalized and as such should be used programmatically with caution.
+          type: string
+      type: object
+    Team:
+      example:
+        is_winner: true
+        score: 7
+        is_at_home: true
+        nickname: nickname
+        location: location
+        team_id: 6
+        abbreviation: abbreviation
+        linescores:
+        - ""
+        - ""
+        venue_id: 1
+      properties:
+        team_id:
+          format: int32
+          type: integer
+        location:
+          type: string
+        nickname:
+          type: string
+        abbreviation:
+          type: string
+        score:
+          format: int32
+          type: integer
+        venue_id:
+          format: int32
+          type: integer
+        linescores:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/LineScore'
+            - $ref: '#/components/schemas/OTLineScore'
+          type: array
+        is_at_home:
+          type: boolean
+        is_winner:
+          type: boolean
+      type: object
+    LineScore:
+      properties:
+        quarter:
+          format: int32
+          type: integer
+        score:
+          format: int32
+          type: integer
+      type: object
+    OTLineScore:
+      properties:
+        quarter:
+          type: string
+        score:
+          format: int32
+          type: integer
+      type: object
+    PlayByPlay:
+      example:
+        play_id: 4
+        play_clock_start: play_clock_start
+        field_position_end: field_position_end
+        play_clock_start_in_secs: 9
+        play_sequence: 5
+        yards_to_go: 8
+        down: 6
+        play_summary: play_summary
+        quarter: 9
+        field_position_start: field_position_start
+      properties:
+        play_id:
+          format: int32
+          type: integer
+        play_sequence:
+          format: int32
+          type: integer
+        quarter:
+          format: int32
+          type: integer
+        play_clock_start:
+          type: string
+        play_clock_start_in_secs:
+          format: int32
+          type: integer
+        field_position_start:
+          type: string
+        field_position_end:
+          type: string
+        down:
+          format: int32
+          type: integer
+        yards_to_go:
+          format: int32
+          type: integer
+        play_summary:
           type: string
       type: object
     ApiResponse:
