@@ -1,0 +1,399 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: tech@cfl.ca
+  description: This is an attempt to encode the CFL API using Swagger Spec.
+  license:
+    name: CFL Public Licence
+    url: http://api.cfl.ca/key-request/public-licence
+  termsOfService: http://api.cfl.ca/docs
+  title: CFL API
+  version: "1.32"
+externalDocs:
+  description: Find out more about the CFL API
+  url: http://api.cfl.ca/docs
+servers:
+- url: https://api.cfl.ca
+- url: http://api.cfl.ca
+tags:
+- description: Everything about CFL games
+  externalDocs:
+    description: Find out more
+    url: http://api.cfl.ca/docs#games
+  name: games
+paths:
+  /v1/games/{season}:
+    get:
+      operationId: getGames
+      parameters:
+      - description: Season to retrieve
+        explode: false
+        in: path
+        name: season
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Games'
+          description: Games from seaon
+      security:
+      - api_key: []
+      summary: Get a list of all games in a particular season
+      tags:
+      - games
+  /v1/games/{season}/game/{gameId}{?include}:
+    get:
+      operationId: getGamesById
+      parameters:
+      - description: Season to retrieve
+        explode: false
+        in: path
+        name: season
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      - description: Specific game to retrieve
+        explode: false
+        in: path
+        name: gameId
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      - description: |
+          Additional game data can be optionally accessed through use of the include parameter. To get both the box score and play-by-play data in a single API request, pass both values separated by a comma: include=boxscore,play_by_play
+        examples:
+          one:
+            summary: To get both the box score and play-by-play data in a single API request
+            value: include=boxscore,play_by_play
+        explode: false
+        in: query
+        name: include
+        required: false
+        schema:
+          enum:
+          - boxscore
+          - play_by_play
+          - rosters
+          - penalties
+          - play_reviews
+          format: array
+          type: string
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+          description: Games from seaon
+      security:
+      - api_key: []
+      summary: Get data for a specific game
+      tags:
+      - games
+components:
+  schemas:
+    Games:
+      example:
+        data:
+        - venue:
+            name: name
+            venue_id: 1
+          date_start: 2000-01-23T04:56:07.000+00:00
+          week: 1
+          event_type:
+            name: name
+            title: title
+            event_type_id: 2
+          coin_toss:
+            coin_toss_winner: coin_toss_winner
+            coin_toss_winner_election: coin_toss_winner_election
+          weather:
+            sky: sky
+            field_conditions: field_conditions
+            temperature: 1
+            wind_speed: wind_speed
+            wind_direction: wind_direction
+          season: 5
+          tickets_url: tickets_url
+          game_number: 6
+          attendance: 5
+          game_id: 0
+          event_status:
+            seconds: 2
+            is_active: true
+            minutes: 3
+            name: name
+            event_status_id: 7
+            yards_to_go: 7
+            down: 4
+            quarter: 9
+        - venue:
+            name: name
+            venue_id: 1
+          date_start: 2000-01-23T04:56:07.000+00:00
+          week: 1
+          event_type:
+            name: name
+            title: title
+            event_type_id: 2
+          coin_toss:
+            coin_toss_winner: coin_toss_winner
+            coin_toss_winner_election: coin_toss_winner_election
+          weather:
+            sky: sky
+            field_conditions: field_conditions
+            temperature: 1
+            wind_speed: wind_speed
+            wind_direction: wind_direction
+          season: 5
+          tickets_url: tickets_url
+          game_number: 6
+          attendance: 5
+          game_id: 0
+          event_status:
+            seconds: 2
+            is_active: true
+            minutes: 3
+            name: name
+            event_status_id: 7
+            yards_to_go: 7
+            down: 4
+            quarter: 9
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Game'
+          type: array
+      type: object
+    Game:
+      example:
+        venue:
+          name: name
+          venue_id: 1
+        date_start: 2000-01-23T04:56:07.000+00:00
+        week: 1
+        event_type:
+          name: name
+          title: title
+          event_type_id: 2
+        coin_toss:
+          coin_toss_winner: coin_toss_winner
+          coin_toss_winner_election: coin_toss_winner_election
+        weather:
+          sky: sky
+          field_conditions: field_conditions
+          temperature: 1
+          wind_speed: wind_speed
+          wind_direction: wind_direction
+        season: 5
+        tickets_url: tickets_url
+        game_number: 6
+        attendance: 5
+        game_id: 0
+        event_status:
+          seconds: 2
+          is_active: true
+          minutes: 3
+          name: name
+          event_status_id: 7
+          yards_to_go: 7
+          down: 4
+          quarter: 9
+      properties:
+        game_id:
+          format: int32
+          type: integer
+        date_start:
+          format: date-time
+          type: string
+        game_number:
+          format: int32
+          type: integer
+        week:
+          format: int32
+          type: integer
+        season:
+          format: int32
+          type: integer
+        attendance:
+          format: int32
+          type: integer
+        event_type:
+          $ref: '#/components/schemas/EventType'
+        event_status:
+          $ref: '#/components/schemas/EventStatus'
+        venue:
+          $ref: '#/components/schemas/Venue'
+        weather:
+          $ref: '#/components/schemas/Weather'
+        coin_toss:
+          $ref: '#/components/schemas/CoinToss'
+        tickets_url:
+          type: string
+      type: object
+    EventType:
+      example:
+        name: name
+        title: title
+        event_type_id: 2
+      properties:
+        event_type_id:
+          description: |
+            An integer value indicating the type of game played. Possible values are:
+            0: Preseason
+            1: Regular Season
+            2: Playoffs
+            3: Grey Cup
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          format: int32
+          type: integer
+        name:
+          type: string
+        title:
+          description: |
+            An string value indicating the formal title of the game. Possible values can include:
+            Blank / No value
+            Eastern Semi-Final
+            Western Semi-Final
+            Eastern Final
+            Western Final
+            XXXth Grey Cup
+          type: string
+      type: object
+    EventStatus:
+      example:
+        seconds: 2
+        is_active: true
+        minutes: 3
+        name: name
+        event_status_id: 7
+        yards_to_go: 7
+        down: 4
+        quarter: 9
+      properties:
+        event_status_id:
+          description: |
+            An integer value indicating the current status of the game. Possible values are:
+            1: Pre-Game
+            2: In-Progress
+            4: Final
+            9: Cancelled
+          enum:
+          - 1
+          - 2
+          - 4
+          - 9
+          format: int32
+          type: integer
+        name:
+          type: string
+        is_active:
+          description: |
+            A Boolean value indicating if play is currently live in this game. If play is live at the time of the API request, the value returned is true; else it is false.
+          type: boolean
+        quarter:
+          description: |
+            If this game is in progress, contains an integer value indicating the current quarter of play. Contains null if the game is not in play.
+          format: int32
+          type: integer
+        minutes:
+          description: |
+            If this game is in progress, contains an integer value indicating the last recorded minute value of the game clock. Contains null if the game is not in play.
+          format: int32
+          type: integer
+        seconds:
+          description: |
+            If this game is in progress, contains an integer value indicating the last recorded second value of the game clock. Contains null if the game is not in play.
+          format: int32
+          type: integer
+        down:
+          description: |
+            If this game is in progress, contains an integer value indicating the down of the last recorded play. Contains null if the game is not in play.
+          format: int32
+          type: integer
+        yards_to_go:
+          description: |
+            If this game is in progress, contains an integer value indicating the last recorded number of yards to a first down. Contains null if the game is not in play.
+          format: int32
+          type: integer
+      type: object
+    Venue:
+      example:
+        name: name
+        venue_id: 1
+      properties:
+        venue_id:
+          description: |
+            A unique numeric value assigned to the stadium / venue the game is held within.
+          format: int32
+          type: integer
+        name:
+          description: |
+            The name of the stadium / venue the game is held within.
+          type: string
+      type: object
+    Weather:
+      example:
+        sky: sky
+        field_conditions: field_conditions
+        temperature: 1
+        wind_speed: wind_speed
+        wind_direction: wind_direction
+      properties:
+        temperature:
+          description: |
+            An integer value indicating the temperature taken at the stadium / venue the game is held at. Note that this value can be zero or negative.
+          format: int32
+          type: integer
+        sky:
+          type: string
+        wind_speed:
+          type: string
+        wind_direction:
+          type: string
+        field_conditions:
+          type: string
+      type: object
+    CoinToss:
+      example:
+        coin_toss_winner: coin_toss_winner
+        coin_toss_winner_election: coin_toss_winner_election
+      properties:
+        coin_toss_winner:
+          type: string
+        coin_toss_winner_election:
+          description: |
+            A free-form string that contains information on the winner of the game-starting coin toss, and what the team elected to do.
+            The structure of this value is not normalized and as such should be used programmatically with caution.
+          type: string
+      type: object
+    ApiResponse:
+      properties:
+        code:
+          format: int32
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
+      type: object
+  securitySchemes:
+    api_key:
+      in: query
+      name: key
+      type: apiKey

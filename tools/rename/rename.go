@@ -31,6 +31,9 @@ func main() {
 		if strings.HasSuffix(name, ".generated.go") {
 			return nil
 		}
+		if strings.HasSuffix(name, "_test.go") {
+			return nil
+		}
 		if !strings.HasSuffix(name, ".go") {
 			return nil
 		}

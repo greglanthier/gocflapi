@@ -26,11 +26,12 @@ import "./client"
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.cfl.ca/v1*
+All URIs are relative to *https://api.cfl.ca*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*GamesApi* | [**GetGames**](docs/GamesApi.md#getgames) | **Get** /games/{season} | Get a list of all games in a particular season
+*GamesApi* | [**GetGames**](docs/GamesApi.md#getgames) | **Get** /v1/games/{season} | Get a list of all games in a particular season
+*GamesApi* | [**GetGamesById**](docs/GamesApi.md#getgamesbyid) | **Get** /v1/games/{season}/game/{gameId}{?include} | Get data for a specific game
 
 
 ## Documentation For Models
