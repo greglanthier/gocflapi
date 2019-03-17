@@ -20,5 +20,19 @@ type PlayByPlay struct {
 	FieldPositionEnd string `json:"field_position_end,omitempty"`
 	Down int32 `json:"down,omitempty"`
 	YardsToGo int32 `json:"yards_to_go,omitempty"`
+	IsInRedZone bool `json:"is_in_red_zone,omitempty"`
+	TeamHomeScore int32 `json:"team_home_score,omitempty"`
+	TeamVisitorScore int32 `json:"team_visitor_score,omitempty"`
+	PlayTypeId int32 `json:"play_type_id,omitempty"`
+	PlayTypeDescription string `json:"play_type_description,omitempty"`
+	PlayResultTypeId int32 `json:"play_result_type_id,omitempty"`
+	PlayResultTypeDescription string `json:"play_result_type_description,omitempty"`
+	PlayResultYards int32 `json:"play_result_yards,omitempty"`
+	PlayResultPoint int32 `json:"play_result_point,omitempty"`
+	PlaySuccessId int32 `json:"play_success_id,omitempty"`
+	PlaySuccessDescription string `json:"play_success_description,omitempty"`
+	PlayChangeOfPossessionOccurred bool `json:"play_change_of_possession_occurred,omitempty"`
+	TeamAbbreviation string `json:"team_abbreviation,omitempty"`
+	TeamId int32 `json:"team_id,omitempty"`
 	PlaySummary string `json:"play_summary,omitempty"`
 }

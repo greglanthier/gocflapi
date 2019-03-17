@@ -16,3 +16,4 @@ coverage.txt
 
 /vendor
 
+pkg/client/api/openapi.yaml

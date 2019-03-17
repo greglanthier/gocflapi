@@ -391,6 +391,42 @@ components:
         yards_to_go:
           type: "integer"
           format: "int32"
+        is_in_red_zone:
+          type: "boolean"
+        team_home_score:
+          type: "integer"
+          format: "int32"
+        team_visitor_score:
+          type: "integer"
+          format: "int32"
+        play_type_id:
+          type: "integer"
+          format: "int32"
+        play_type_description:
+          type: "string"
+        play_result_type_id:
+          type: "integer"
+          format: "int32"
+        play_result_type_description:
+          type: "string"
+        play_result_yards:
+          type: "integer"
+          format: "int32"
+        play_result_point:
+          type: "integer"
+          format: "int32"
+        play_success_id:
+          type: "integer"
+          format: "int32"
+        play_success_description:
+          type: "string"
+        play_change_of_possession_occurred:
+          type: "boolean"
+        team_abbreviation:
+          type: "string"
+        team_id:
+          type: "integer"
+          format: int32
         play_summary:
           type: "string"
     ApiResponse:
