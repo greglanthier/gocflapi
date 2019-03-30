@@ -20,10 +20,14 @@ type Game struct {
 	Week int32 `json:"week,omitempty"`
 	Season int32 `json:"season,omitempty"`
 	Attendance int32 `json:"attendance,omitempty"`
+	GameDuration int32 `json:"game_duration,omitempty"`
 	EventType EventType `json:"event_type,omitempty"`
 	EventStatus EventStatus `json:"event_status,omitempty"`
 	Venue Venue `json:"venue,omitempty"`
 	Weather Weather `json:"weather,omitempty"`
 	CoinToss CoinToss `json:"coin_toss,omitempty"`
 	TicketsUrl string `json:"tickets_url,omitempty"`
+	Team1 Team `json:"team_1,omitempty"`
+	Team2 Team `json:"team_2,omitempty"`
+	PlayByPlay []PlayByPlay `json:"play_by_play,omitempty"`
 }

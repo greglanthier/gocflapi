@@ -12,11 +12,12 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
-	"fmt"
+
 	"github.com/antihax/optional"
 )
 
@@ -28,12 +29,26 @@ var (
 type GamesApiService service
 
 /*
-GamesApiService Get a list of all games in a particular season
+GamesApiService Get data for a specific game
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param season Season to retrieve
+ * @param gameId Specific game to retrieve
+ * @param optional nil or *GetGameByIdOpts - Optional Parameters:
+ * @param "Include" (optional.Interface of Include) -  Additional game data can be optionally accessed through use of the include parameter. To get both the box score and play-by-play data in a single API request, pass both values separated by a comma: include=boxscore,play_by_play
+ * @param "Sort" (optional.Interface of Sort) -  To specify how to sort the games returned, use the sort parameter. Sorting by multiple parameters can be accomplished by specifying multiple fields separated by a comma. The direction of sorting is ascending by default; to sort in descending order, prefix the field with a minus (U+002D HYPHEN-MINUS, \"-\") character.
+ * @param "Filter" (optional.Interface of Filter) -
+ * @param "Page" (optional.Interface of Page) -  To specify how many and which games should be returned in an API request, use the page[number] and page[size] parameters. By default, 20 games from page 1 of the result set will be returned. If a specific season of games has been requested, all games are always returned.
 @return Games
 */
-func (a *GamesApiService) GetGames(ctx context.Context, season int32) (Games, *http.Response, error) {
+
+type GetGameByIdOpts struct {
+	Include optional.Interface
+	Sort    optional.Interface
+	Filter  optional.Interface
+	Page    optional.Interface
+}
+
+func (a *GamesApiService) GetGameById(ctx context.Context, season int32, gameId int32, localVarOptionals *GetGameByIdOpts) (Games, *http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Get")
 		localVarPostBody     interface{}
@@ -44,12 +59,38 @@ func (a *GamesApiService) GetGames(ctx context.Context, season int32) (Games, *h
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/v1/games/{season}"
+	localVarPath := a.client.cfg.BasePath + "/v1/games/{season}/game/{gameId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"season"+"}", fmt.Sprintf("%v", season), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"gameId"+"}", fmt.Sprintf("%v", gameId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+
+	if localVarOptionals != nil && localVarOptionals.Include.IsSet() {
+		localVarQueryParams.Add("include", parameterToString(localVarOptionals.Include.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.Sort.IsSet() {
+		localVarQueryParams.Add("sort", parameterToString(localVarOptionals.Sort.Value(), ""))
+	}
+
+	// -- begin manually customized code ----------------------------
+	if localVarOptionals != nil && localVarOptionals.Filter.IsSet() {
+		if v, ok := localVarOptionals.Filter.Value().(Filter); ok {
+			localVarQueryParams.Add(fmt.Sprintf("filter[%s][%s]", v.Field, v.Operator), v.Operator)
+		}
+	}
+	if localVarOptionals != nil && localVarOptionals.Page.IsSet() {
+		if v, ok := localVarOptionals.Page.Value().(Page); ok {
+			if v.Number != 0 {
+				localVarQueryParams.Add("page[number]", fmt.Sprintf("%d", v.Number))
+			}
+			if v.Size != 0 {
+				localVarQueryParams.Add("page[size]", fmt.Sprintf("%d", v.Size))
+			}
+		}
+	}
+	// -- end manually customized code ------------------------------
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
@@ -128,33 +169,37 @@ func (a *GamesApiService) GetGames(ctx context.Context, season int32) (Games, *h
 }
 
 /*
-GamesApiService Get data for a specific game
+GamesApiService Get a list of all games in a particular season
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param season Season to retrieve
- * @param gameId Specific game to retrieve
- * @param optional nil or *GetGamesByIdOpts - Optional Parameters:
- * @param "Include" (optional.String) -  Additional game data can be optionally accessed through use of the include parameter. To get both the box score and play-by-play data in a single API request, pass both values separated by a comma: include=boxscore,play_by_play 
-@return Game
+ * @param optional nil or *GetGamesOpts - Optional Parameters:
+ * @param "Include" (optional.Interface of Include) -  Additional game data can be optionally accessed through use of the include parameter. To get both the box score and play-by-play data in a single API request, pass both values separated by a comma: include=boxscore,play_by_play
+ * @param "Sort" (optional.Interface of Sort) -  To specify how to sort the games returned, use the sort parameter. Sorting by multiple parameters can be accomplished by specifying multiple fields separated by a comma. The direction of sorting is ascending by default; to sort in descending order, prefix the field with a minus (U+002D HYPHEN-MINUS, \"-\") character.
+ * @param "Filter" (optional.Interface of Filter) -
+ * @param "Page" (optional.Interface of Page) -  To specify how many and which games should be returned in an API request, use the page[number] and page[size] parameters. By default, 20 games from page 1 of the result set will be returned. If a specific season of games has been requested, all games are always returned.
+@return Games
 */
 
-type GetGamesByIdOpts struct {
-	Include optional.String
+type GetGamesOpts struct {
+	Include optional.Interface
+	Sort    optional.Interface
+	Filter  optional.Interface
+	Page    optional.Interface
 }
 
-func (a *GamesApiService) GetGamesById(ctx context.Context, season int32, gameId int32, localVarOptionals *GetGamesByIdOpts) (Game, *http.Response, error) {
+func (a *GamesApiService) GetGames(ctx context.Context, season int32, localVarOptionals *GetGamesOpts) (Games, *http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Get")
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  Game
+		localVarReturnValue  Games
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/v1/games/{season}/game/{gameId}{?include}"
+	localVarPath := a.client.cfg.BasePath + "/v1/games/{season}"
 	localVarPath = strings.Replace(localVarPath, "{"+"season"+"}", fmt.Sprintf("%v", season), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"gameId"+"}", fmt.Sprintf("%v", gameId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -163,6 +208,28 @@ func (a *GamesApiService) GetGamesById(ctx context.Context, season int32, gameId
 	if localVarOptionals != nil && localVarOptionals.Include.IsSet() {
 		localVarQueryParams.Add("include", parameterToString(localVarOptionals.Include.Value(), ""))
 	}
+	if localVarOptionals != nil && localVarOptionals.Sort.IsSet() {
+		localVarQueryParams.Add("sort", parameterToString(localVarOptionals.Sort.Value(), ""))
+	}
+
+	// -- begin manually customized code ----------------------------
+	if localVarOptionals != nil && localVarOptionals.Filter.IsSet() {
+		if v, ok := localVarOptionals.Filter.Value().(Filter); ok {
+			localVarQueryParams.Add(fmt.Sprintf("filter[%s][%s]", v.Field, v.Operator), v.Operator)
+		}
+	}
+	if localVarOptionals != nil && localVarOptionals.Page.IsSet() {
+		if v, ok := localVarOptionals.Page.Value().(Page); ok {
+			if v.Number != 0 {
+				localVarQueryParams.Add("page[number]", fmt.Sprintf("%d", v.Number))
+			}
+			if v.Size != 0 {
+				localVarQueryParams.Add("page[size]", fmt.Sprintf("%d", v.Size))
+			}
+		}
+	}
+	// -- end manually customized code ------------------------------
+
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{}
 
@@ -215,7 +282,7 @@ func (a *GamesApiService) GetGamesById(ctx context.Context, season int32, gameId
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v Game
+			var v Games
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
