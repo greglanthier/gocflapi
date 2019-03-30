@@ -25,3 +25,6 @@
 .travis.yml
 git_push.sh
 .gitignore
+api/openapi.yaml
+
+api_games.go

@@ -37,13 +37,54 @@ paths:
       summary: "Get a list of all games in a particular season"
       operationId: getGames
       parameters:
-        - name: "season"
-          in: "path"
+        - in: "path"
+          name: "season"
           description: "Season to retrieve"
           required: true
           schema:
             type: "integer"
             format: "int32"
+        - in: "query"
+          name: "include"
+          style: "form"
+          explode: false
+          description: >
+            Additional game data can be optionally accessed through use of the include parameter. To get both the box score and play-by-play data in a single API request, pass both values separated by a comma: include=boxscore,play_by_play
+          required: false
+          examples:
+            one:
+              value: "include=boxscore,play_by_play"
+              summary: "To get both the box score and play-by-play data in a single API request"
+          schema:
+            $ref: "#/components/schemas/Include"
+        - in: "query"
+          name: "sort"
+          style: "form"
+          explode: false
+          description: >
+            To specify how to sort the games returned, use the sort parameter. Sorting by multiple parameters can be accomplished by specifying multiple fields separated by a comma. The direction of sorting is ascending by default; to sort in descending order, prefix the field with a minus (U+002D HYPHEN-MINUS, "-") character.
+          required: false
+          examples:
+            one:
+              value: "sort=date_start,temperature,-attendance"
+          schema:
+            $ref: "#/components/schemas/Sort"
+        - in: "query"
+          name: "filter"
+          schema:
+            $ref: "#/components/schemas/Filter"
+          style: "deepObject"
+          explode: true
+          required: false
+        - in: "query"
+          name: "page"
+          description: >
+            To specify how many and which games should be returned in an API request, use the page[number] and page[size] parameters. By default, 20 games from page 1 of the result set will be returned. If a specific season of games has been requested, all games are always returned. 
+          schema:
+            $ref: "#/components/schemas/Page"
+          style: "deepObject"
+          explode: true
+          required: false
       responses:
         "200":
           description: "Games from seaon"
@@ -87,14 +128,35 @@ paths:
               value: "include=boxscore,play_by_play"
               summary: "To get both the box score and play-by-play data in a single API request"
           schema:
-            type: "string"
-            format: "array"
-            enum:
-            - "boxscore"
-            - "play_by_play"
-            - "rosters"
-            - "penalties"
-            - "play_reviews"
+            $ref: "#/components/schemas/Include"
+        - in: "query"
+          name: "sort"
+          style: "form"
+          explode: false
+          description: >
+            To specify how to sort the games returned, use the sort parameter. Sorting by multiple parameters can be accomplished by specifying multiple fields separated by a comma. The direction of sorting is ascending by default; to sort in descending order, prefix the field with a minus (U+002D HYPHEN-MINUS, "-") character.
+          required: false
+          examples:
+            one:
+              value: "sort=date_start,temperature,-attendance"
+          schema:
+            $ref: "#/components/schemas/Sort"
+        - in: "query"
+          name: "filter"
+          schema:
+            $ref: "#/components/schemas/Filter"
+          style: "deepObject"
+          explode: true
+          required: false
+        - in: "query"
+          name: "page"
+          description: >
+            To specify how many and which games should be returned in an API request, use the page[number] and page[size] parameters. By default, 20 games from page 1 of the result set will be returned. If a specific season of games has been requested, all games are always returned. 
+          schema:
+            $ref: "#/components/schemas/Page"
+          style: "deepObject"
+          explode: true
+          required: false
       responses:
         "200":
           description: "Games from seaon"
@@ -119,98 +181,6 @@ components:
       name: "key"
       in: "query"
   schemas:
-    Games:
-      type: "object"
-      properties:
-        data:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/Game"
-    Game:
-      type: "object"
-      properties:
-        game_id:
-          type: "integer"
-          format: "int32"
-        date_start:
-          type: "string"
-          format: "date-time"
-        game_number:
-          type: "integer"
-          format: "int32"
-        week:
-          type: "integer"
-          format: "int32"
-        season:
-          type: "integer"
-          format: "int32"
-        attendance:
-          type: "integer"
-          format: "int32"
-        game_duration:
-          type: "integer"
-          format: "int32"
-        event_type:
-          $ref: "#/components/schemas/EventType"
-        event_status:
-          $ref: "#/components/schemas/EventStatus"
-        venue:
-          $ref: "#/components/schemas/Venue"
-        weather:
-          $ref: "#/components/schemas/Weather"
-        coin_toss:
-          $ref: "#/components/schemas/CoinToss"
-        tickets_url:
-          type: "string"
-        team_1:
-          $ref: "#/components/schemas/Team"
-        team_2:
-          $ref: "#/components/schemas/Team"
-        play_by_play:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/PlayByPlay"
-    EventType:
-      type: "object"
-      properties:
-        event_type_id:
-          type: "integer"
-          format: "int32"
-          description: >
-            An integer value indicating the type of game played. Possible values
-            are:
-
-            0: Preseason
-
-            1: Regular Season
-
-            2: Playoffs
-
-            3: Grey Cup
-          enum:
-            - 0
-            - 1
-            - 2
-            - 3
-        name:
-          type: "string"
-        title:
-          type: "string"
-          description: >
-            An string value indicating the formal title of the game. Possible
-            values can include:
-
-            Blank / No value
-
-            Eastern Semi-Final
-
-            Western Semi-Final
-
-            Eastern Final
-
-            Western Final
-
-            XXXth Grey Cup
     EventStatus:
       type: "object"
       properties:
@@ -276,6 +246,127 @@ components:
             If this game is in progress, contains an integer value indicating
             the last recorded number of yards to a first down. Contains null if
             the game is not in play.
+    EventType:
+      type: "object"
+      properties:
+        event_type_id:
+          type: "integer"
+          format: "int32"
+          description: >
+            An integer value indicating the type of game played. Possible values
+            are:
+
+            0: Preseason
+
+            1: Regular Season
+
+            2: Playoffs
+
+            3: Grey Cup
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+        name:
+          type: "string"
+        title:
+          type: "string"
+          description: >
+            An string value indicating the formal title of the game. Possible
+            values can include:
+
+            Blank / No value
+
+            Eastern Semi-Final
+
+            Western Semi-Final
+
+            Eastern Final
+
+            Western Final
+
+            XXXth Grey Cup
+    Filter:
+      type: "object"
+      properties:
+        field:
+          type: "string"
+        operator:
+          type: "string"
+        operand:
+          type: "string"
+    Game:
+      type: "object"
+      properties:
+        game_id:
+          type: "integer"
+          format: "int32"
+        date_start:
+          type: "string"
+          format: "date-time"
+        game_number:
+          type: "integer"
+          format: "int32"
+        week:
+          type: "integer"
+          format: "int32"
+        season:
+          type: "integer"
+          format: "int32"
+        attendance:
+          type: "integer"
+          format: "int32"
+        game_duration:
+          type: "integer"
+          format: "int32"
+        event_type:
+          $ref: "#/components/schemas/EventType"
+        event_status:
+          $ref: "#/components/schemas/EventStatus"
+        venue:
+          $ref: "#/components/schemas/Venue"
+        weather:
+          $ref: "#/components/schemas/Weather"
+        coin_toss:
+          $ref: "#/components/schemas/CoinToss"
+        tickets_url:
+          type: "string"
+        team_1:
+          $ref: "#/components/schemas/Team"
+        team_2:
+          $ref: "#/components/schemas/Team"
+        play_by_play:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/PlayByPlay"
+    Games:
+      type: "object"
+      properties:
+        data:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Game"
+    Include:
+      type: "string"
+      format: "array"
+      enum:
+      - "boxscore"
+      - "play_by_play"
+      - "rosters"
+      - "penalties"
+      - "play_reviews"
+    Sort:
+      type: "string"
+      format: "array"
+      enum:
+      - date_start
+      - season
+      - week
+      - temperature
+      - attendance
+      - team_1
+      - team_2
     Venue:
       type: "object"
       properties:
@@ -342,7 +433,7 @@ components:
           items:
             anyOf:
             - $ref: "#/components/schemas/LineScore"
-            - $ref: "#/components/schemas/OTLineScore"
+            - $ref: "#/components/schemas/OverTimeLineScore"
         is_at_home:
           type: "boolean"
         is_winner:
@@ -356,7 +447,7 @@ components:
         score:
           type: "integer"
           format: "int32"
-    OTLineScore:
+    OverTimeLineScore:
       type: "object"
       properties:
         quarter:
@@ -429,6 +520,15 @@ components:
           format: int32
         play_summary:
           type: "string"
+    Page:
+      type: "object"
+      properties:
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
     ApiResponse:
       type: "object"
       properties:
