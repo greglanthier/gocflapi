@@ -77,7 +77,7 @@ func (a *GamesApiService) GetGameById(ctx context.Context, season int32, gameId 
 	// -- begin manually customized code ----------------------------
 	if localVarOptionals != nil && localVarOptionals.Filter.IsSet() {
 		if v, ok := localVarOptionals.Filter.Value().(Filter); ok {
-			localVarQueryParams.Add(fmt.Sprintf("filter[%s][%s]", v.Field, v.Operator), v.Operator)
+			localVarQueryParams.Add(fmt.Sprintf("filter[%s][%s]", v.Field, v.Operator), v.Operand)
 		}
 	}
 	if localVarOptionals != nil && localVarOptionals.Page.IsSet() {
@@ -215,7 +215,7 @@ func (a *GamesApiService) GetGames(ctx context.Context, season int32, localVarOp
 	// -- begin manually customized code ----------------------------
 	if localVarOptionals != nil && localVarOptionals.Filter.IsSet() {
 		if v, ok := localVarOptionals.Filter.Value().(Filter); ok {
-			localVarQueryParams.Add(fmt.Sprintf("filter[%s][%s]", v.Field, v.Operator), v.Operator)
+			localVarQueryParams.Add(fmt.Sprintf("filter[%s][%s]", v.Field, v.Operator), v.Operand)
 		}
 	}
 	if localVarOptionals != nil && localVarOptionals.Page.IsSet() {
