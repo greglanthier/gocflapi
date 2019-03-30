@@ -28,7 +28,7 @@ type PlayByPlay struct {
 	PlayResultTypeId int32 `json:"play_result_type_id,omitempty"`
 	PlayResultTypeDescription string `json:"play_result_type_description,omitempty"`
 	PlayResultYards int32 `json:"play_result_yards,omitempty"`
-	PlayResultPoint int32 `json:"play_result_point,omitempty"`
+	PlayResultPoints int32 `json:"play_result_points,omitempty"`
 	PlaySuccessId int32 `json:"play_success_id,omitempty"`
 	PlaySuccessDescription string `json:"play_success_description,omitempty"`
 	PlayChangeOfPossessionOccurred bool `json:"play_change_of_possession_occurred,omitempty"`

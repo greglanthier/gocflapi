@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 **PlayResultTypeId** | **int32** |  | [optional] 
 **PlayResultTypeDescription** | **string** |  | [optional] 
 **PlayResultYards** | **int32** |  | [optional] 
-**PlayResultPoint** | **int32** |  | [optional] 
+**PlayResultPoints** | **int32** |  | [optional] 
 **PlaySuccessId** | **int32** |  | [optional] 
 **PlaySuccessDescription** | **string** |  | [optional] 
 **PlayChangeOfPossessionOccurred** | **bool** |  | [optional] 

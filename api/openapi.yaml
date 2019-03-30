@@ -503,7 +503,7 @@ components:
         play_result_yards:
           type: "integer"
           format: "int32"
-        play_result_point:
+        play_result_points:
           type: "integer"
           format: "int32"
         play_success_id:
